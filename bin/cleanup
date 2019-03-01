@@ -160,5 +160,5 @@ case "$1" in
         actionCleanUp
         ;;
     *)
-        die "${BOLD}Unrecognized action${NC}\n\n`cleanup help`"
+        die "${bold}cleanup: '$1' is not a cleanup command. See ${GREEN}'cleanup help'${NC}.${normal}"
 esac
