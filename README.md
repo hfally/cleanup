@@ -40,7 +40,7 @@ Add `$HOME/cleanup/bin` to your PATH.
 Run the command below. There is 70% chances you are using the default bash terminal, but if you happen to be using
 another terminal like `zsh` switch `.baschrc` for `.zshrc` in the commands below.
 
-`$ echo 'export PATH="$PATH:$HOME/cleanup/bin' >> .bashrc`
+`$ echo 'export PATH="$PATH:$HOME/cleanup/bin"' >> .bashrc`
 
 You will need to source your .bashrc or logout/login (or restart the terminal) for the updates to take effect. 
 To source your .bashrc, simply run:
