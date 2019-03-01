@@ -1,0 +1,151 @@
+#!/bin/bash -e
+
+# Used colors
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+
+# Text Transform
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+die () {
+    echo >&2 "$@"
+    exit 1
+}
+
+good () {
+    GREEN='\033[0;32m'
+    NC='\033[0m' # No color
+    echo -e "${GREEN}done${NC}"
+}
+
+alert () {
+    GREEN='\033[0;32m'
+    NC='\033[0m'
+
+    echo -e "$GREEN$@$NC"
+    exit 1
+}
+
+actionCleanUp () {
+    # Make Parent folder if doesn't exist
+    echo -n "creating directory Cleanup... - "
+
+    if [ ! -d "Cleanup" ]; then
+        mkdir Cleanup
+    fi
+
+    good
+
+    printf "\n"
+
+    # Make Necessary Folders
+    directories=('Documents' 'Pictures' 'Videos' 'Music' 'Compressed' 'Webfiles' 'Softwares')
+
+    for directory in ${directories[@]}
+    do
+        path="Cleanup/$directory"
+
+        echo -n "creating directory Cleanup/$directory... - "
+
+        if [ ! -d "$path" ]; then
+            mkdir $path
+        fi
+
+        good
+
+        printf "\n"
+        printf "\n"
+    done
+
+    # Group Files per Extension
+    declare -a fileGroups
+
+    # Documents
+    fileGroups[0]='docx:doc:odt:pdf:txt:epub:ppt:pptx:sql'
+
+    # Pictures
+    fileGroups[1]='jpg:jpeg:svg:gif:png'
+
+    # Videos
+    fileGroups[2]='avi:mp4:mkv'
+
+    # Music
+    fileGroups[3]='mp3:wav'
+
+    # Compressed
+    fileGroups[4]='tar.gz:zip:tar.xz'
+
+    # Webfiles
+    fileGroups[5]='html:js:css:php'
+
+    # Softwares
+    fileGroups[6]='exe:deb:bin:apk'
+
+    # move files to each to respective folder
+    echo -e "${YELLOW}${bold}---START CLEANUP PROCESS----${normal}${NC}"
+
+    printf "\n"
+
+    for ((i=0; i<${#fileGroups[@]}; i++))
+    do
+        directory=${directories[i]}
+        fileGroup=${fileGroups[i]}
+        extensions=${fileGroup//:/ }
+        count=0
+
+        echo -e "${BLUE}moving files into Cleanup/$directory${NC}"
+
+        printf "\n"
+
+        for extension in $extensions
+        do
+            for file in *.$extension; do
+                [ -f "$file" ] || break
+
+                echo -n "    moving $file - "
+
+                mv "$file" "Cleanup/$directory/."
+
+                good
+
+                let "count=$count+1"
+
+                printf "\n"
+            done
+        done
+
+        echo -e "--${GREEN}$count files moved into Cleanup/$directory${NC}--"
+
+        printf "\n"
+    done
+
+    echo -e "${GREEN}${bold}---CLEANUP PROCESS COMPLETED----${normal}${NC}"
+}
+
+actionHelp () {
+    printf "${YELLOW}Version:$NC cleanup 1.0.0
+${YELLOW}Copyright:$NC © $YEAR Henry Falade (cleanup)
+${YELLOW}Usage:$NC cleanup
+\n
+${YELLOW}Description:$NC
+\t- This tool creates a folder ${bold}Cleanup${normal} in the directory it is being ran.
+\t- After this, it creates group folders (eg. Documents, Music, etc)
+\t  inside the newly created ${bold}Cleanup${normal} folder.
+\t- Finally, it moves files using their extensions to group them into
+\t  the best-suiting new folder.
+"
+}
+
+if [[ $1 = 'help' ]]; then
+    echo -e "${BLUE}Hello "$(whoami)"!${NC}"
+    printf "\n"
+
+    actionHelp
+    exit
+else
+    actionCleanUp
+    exit
+fi
