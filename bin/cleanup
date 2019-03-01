@@ -5,13 +5,15 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
+RED='\033[0;31m'
 
 # Text Transform
 bold=$(tput bold)
 normal=$(tput sgr0)
 
 die () {
-    echo >&2 "$@"
+    echo -e "${RED}$@${NC}"
+
     exit 1
 }
 
@@ -123,13 +125,15 @@ actionCleanUp () {
     done
 
     echo -e "${GREEN}${bold}---CLEANUP PROCESS COMPLETED: Check directory CLEANUP in your current directory----${normal}${NC}"
+
+    exit
 }
 
 actionHelp () {
     echo -e "${BLUE}Hello "$(whoami)"!${NC}"
     printf "\n"
 
-    printf "${YELLOW}Version:$NC cleanup 1.0.0
+    printf "${YELLOW}Version:$NC cleanup 1.0.1
 ${YELLOW}Copyright:$NC © $YEAR Henry Falade (cleanup)
 ${YELLOW}Usage:$NC cleanup [start]
 \n
@@ -140,6 +144,8 @@ ${YELLOW}Description:$NC
 \t- Finally, it moves files using their extensions to group them into
 \t  the best-suiting new folder.
 "
+
+exit
 }
 
 # Check that action was stated
@@ -154,5 +160,5 @@ case "$1" in
         actionCleanUp
         ;;
     *)
-        die "Unrecognized action\n"
+        die "${BOLD}Unrecognized action${NC}\n\n`cleanup help`"
 esac
