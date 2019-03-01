@@ -31,10 +31,10 @@ alert () {
 
 actionCleanUp () {
     # Make Parent folder if doesn't exist
-    echo -n "creating directory Cleanup... - "
+    echo -n "creating directory CLEANUP... - "
 
-    if [ ! -d "Cleanup" ]; then
-        mkdir Cleanup
+    if [ ! -d "CLEANUP" ]; then
+        mkdir CLEANUP
     fi
 
     good
@@ -46,9 +46,9 @@ actionCleanUp () {
 
     for directory in ${directories[@]}
     do
-        path="Cleanup/$directory"
+        path="CLEANUP/$directory"
 
-        echo -n "creating directory Cleanup/$directory... - "
+        echo -n "creating directory CLEANUP/$directory... - "
 
         if [ ! -d "$path" ]; then
             mkdir $path
@@ -96,7 +96,7 @@ actionCleanUp () {
         extensions=${fileGroup//:/ }
         count=0
 
-        echo -e "${BLUE}moving files into Cleanup/$directory${NC}"
+        echo -e "${BLUE}moving files into CLEANUP/$directory${NC}"
 
         printf "\n"
 
@@ -107,7 +107,7 @@ actionCleanUp () {
 
                 echo -n "    moving $file - "
 
-                mv "$file" "Cleanup/$directory/."
+                mv "$file" "CLEANUP/$directory/."
 
                 good
 
@@ -117,35 +117,42 @@ actionCleanUp () {
             done
         done
 
-        echo -e "--${GREEN}$count files moved into Cleanup/$directory${NC}--"
+        echo -e "--${GREEN}$count files moved into CLEANUP/$directory${NC}--"
 
         printf "\n"
     done
 
-    echo -e "${GREEN}${bold}---CLEANUP PROCESS COMPLETED----${normal}${NC}"
+    echo -e "${GREEN}${bold}---CLEANUP PROCESS COMPLETED: Check directory CLEANUP in your current directory----${normal}${NC}"
 }
 
 actionHelp () {
+    echo -e "${BLUE}Hello "$(whoami)"!${NC}"
+    printf "\n"
+
     printf "${YELLOW}Version:$NC cleanup 1.0.0
 ${YELLOW}Copyright:$NC © $YEAR Henry Falade (cleanup)
-${YELLOW}Usage:$NC cleanup
+${YELLOW}Usage:$NC cleanup [start]
 \n
 ${YELLOW}Description:$NC
-\t- This tool creates a folder ${bold}Cleanup${normal} in the directory it is being ran.
+\t- This tool creates a folder ${bold}CLEANUP${normal} in the directory it is being ran.
 \t- After this, it creates group folders (eg. Documents, Music, etc)
-\t  inside the newly created ${bold}Cleanup${normal} folder.
+\t  inside the newly created ${bold}CLEANUP${normal} folder.
 \t- Finally, it moves files using their extensions to group them into
 \t  the best-suiting new folder.
 "
 }
 
-if [[ $1 = 'help' ]]; then
-    echo -e "${BLUE}Hello "$(whoami)"!${NC}"
-    printf "\n"
+# Check that action was stated
+[[ -n "$1" ]] || actionHelp
 
-    actionHelp
-    exit
-else
-    actionCleanUp
-    exit
-fi
+# Check that action is valid
+case "$1" in
+    "help")
+        actionHelp
+        ;;
+    "start")
+        actionCleanUp
+        ;;
+    *)
+        die "Unrecognized action\n"
+esac

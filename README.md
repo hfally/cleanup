@@ -17,9 +17,9 @@ This tool was built for me and you to help us `cleanup` such folder with just a 
 
 By `cleanup`, it doesn't delete your files : ).
 
-- This tool creates a folder called **Cleanup** in the directory it is being ran.
+- This tool creates a folder called **CLEANUP** in the directory it is being ran.
 - After this, it creates group folders (eg. Documents, Music, etc)
-inside the newly created **Cleanup** folder.
+inside the newly created **CLEANUP** folder.
 - Finally, it moves your files using their extensions to group them into
 the best-suiting new folder.
 
@@ -64,7 +64,7 @@ To source your .bashrc, simply run:
 
 * Run the command below to do the cleanup
 
-    `$ cleanup`
+    `$ cleanup start`
 
 Watch your folder get cleaned up.
 
