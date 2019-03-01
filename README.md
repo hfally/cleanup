@@ -72,6 +72,14 @@ That's it!
 
 You can always get help through `$ cleanup help`
 
+## Update
+To pull latest updates, go into the `cleanup` directory: if you followed the above instructions, run:
+
+`$ cd ~/cleanup`
+
+then run:
+
+`$ git pull`
     
 ## Supported OS
 - Linux
