@@ -1,5 +1,5 @@
 #!/bin/bash -e
-
+#set -x
 # Used colors
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
@@ -148,6 +148,15 @@ ${YELLOW}Description:$NC
 exit
 }
 
+actionUndo () {
+
+echo -e "${BLUE}Undo-ing file move and deliting folders${NC}"
+find CLEANUP -type f -exec mv -i {} . \;
+find CLEANUP -type d -not -path "CLEANUP" -exec rmdir {} +
+rmdir CLEANUP
+
+}
+
 # Check that action was stated
 [[ -n "$1" ]] || actionHelp
 
@@ -158,6 +167,9 @@ case "$1" in
         ;;
     "start")
         actionCleanUp
+        ;;
+    "undo")
+        actionUndo
         ;;
     *)
         die "${bold}cleanup: '$1' is not a cleanup command. See ${GREEN}'cleanup help'${NC}.${normal}"
