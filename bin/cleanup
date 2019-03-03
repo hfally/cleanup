@@ -133,9 +133,15 @@ actionHelp () {
     echo -e "${BLUE}Hello "$(whoami)"!${NC}"
     printf "\n"
 
-    printf "${YELLOW}Version:$NC cleanup 1.0.1
+    printf "${YELLOW}Version:$NC cleanup 1.0.3
 ${YELLOW}Copyright:$NC © $YEAR Henry Falade (cleanup)
-${YELLOW}Usage:$NC cleanup [start, undo]
+${YELLOW}Usage:$NC cleanup [argument]
+\n
+${YELLOW}Available arguments:${NC}
+\t${GREEN}start${NC}\t Cleans up your folder
+\t${GREEN}undo${NC}\t Returns files to previous state/folder
+\t${GREEN}update${NC}\t Uses git to pull latest update
+\t${GREEN}help${NC}\t Displays help for tool usage
 \n
 ${YELLOW}Description:$NC
 \t- This tool creates a folder ${bold}CLEANUP${normal} in the directory it is being ran.
@@ -146,22 +152,34 @@ ${YELLOW}Description:$NC
 \t- To undo this action, run ${bold}cleanup undo${normal}.
 "
 
-exit
+    exit
 }
 
 actionUndo () {
 
-[ -d "CLEANUP" ] || die "No CLEANUP folder found!"
+    [ -d "CLEANUP" ] || die "No CLEANUP folder found!"
 
-echo -e "Undo-ing file move and deleting folders - "
+    echo -e "Undo-ing file move and deleting folders - "
 
-find CLEANUP -type f -exec mv -i {} . \;
-find CLEANUP -type d -not -path "CLEANUP" -exec rmdir {} +
+    find CLEANUP -type f -exec mv -i {} . \;
+    find CLEANUP -type d -not -path "CLEANUP" -exec rmdir {} +
 
-rmdir CLEANUP
+    rmdir CLEANUP
 
-good
+    good
 
+}
+
+actionUpdate () {
+    echo -e "Checking for update..."
+
+    presentfolder=$(pwd)
+
+    cd ~/cleanup && git pull origin master
+
+    cd $presentfolder
+
+    good
 }
 
 # Check that action was stated
@@ -177,6 +195,9 @@ case "$1" in
         ;;
     "undo")
         actionUndo
+        ;;
+    "update")
+        actionUpdate
         ;;
     *)
         die "${bold}cleanup: '$1' is not a cleanup command. See ${GREEN}'cleanup help'${NC}.${normal}"
