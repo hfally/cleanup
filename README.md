@@ -78,7 +78,13 @@ To undo/revert cleanup, run:
    `$ cleanup undo`
 
 ## Update
-To pull latest updates, go into the `cleanup` directory: if you followed the above instructions, run:
+To pull latest updates, simply run:
+ 
+ `$ cleanup update`
+ 
+ OR
+ 
+ go into the `cleanup` directory: if you followed the above instructions, run:
 
 `$ cd ~/cleanup`
 
