@@ -135,7 +135,7 @@ actionHelp () {
 
     printf "${YELLOW}Version:$NC cleanup 1.0.1
 ${YELLOW}Copyright:$NC © $YEAR Henry Falade (cleanup)
-${YELLOW}Usage:$NC cleanup [start]
+${YELLOW}Usage:$NC cleanup [start, undo]
 \n
 ${YELLOW}Description:$NC
 \t- This tool creates a folder ${bold}CLEANUP${normal} in the directory it is being ran.
@@ -143,6 +143,7 @@ ${YELLOW}Description:$NC
 \t  inside the newly created ${bold}CLEANUP${normal} folder.
 \t- Finally, it moves files using their extensions to group them into
 \t  the best-suiting new folder.
+\t- To undo this action, run ${bold}cleanup undo${normal}.
 "
 
 exit
@@ -150,10 +151,16 @@ exit
 
 actionUndo () {
 
-echo -e "${BLUE}Undo-ing file move and deliting folders${NC}"
+[ -d "CLEANUP" ] || die "No CLEANUP folder found!"
+
+echo -e "Undo-ing file move and deleting folders - "
+
 find CLEANUP -type f -exec mv -i {} . \;
 find CLEANUP -type d -not -path "CLEANUP" -exec rmdir {} +
+
 rmdir CLEANUP
+
+good
 
 }
 
