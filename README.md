@@ -75,7 +75,7 @@ You can always get help through `$ cleanup help`
 ## Undo/Revert
 To undo/revert cleanup, run:
 
-    `$ cleanup undo`
+   `$ cleanup undo`
 
 ## Update
 To pull latest updates, go into the `cleanup` directory: if you followed the above instructions, run:
