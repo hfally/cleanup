@@ -102,4 +102,4 @@ then run:
 Cleanup is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
 ## Contribution
-For contribution and personal bug reporting, send a mail to the author <a href='mailto:tofex4eva@yahoo.com'>hello@henryfalade.me</a>
+For contribution and personal bug reporting, send a mail to the author <a href='mailto:tofex4eva@yahoo.com'>tofex4eva@yahoo.com</a>
